@@ -88,3 +88,156 @@ func Test_Value_Addr(t *testing.T) {
 	fmt.Printf("%p,%p\n", &slice1, &slice2) //0xc0000044a0,0xc0000044c0
 	//切片本身的地址
 }
+
+//拷贝
+//浅拷贝指的是拷贝的引用地址，修改拷贝过后的数据,原有的数据也被修改
+//深拷贝是指将值类型的数据进行拷贝的时候，拷贝的是数值本身，所以值类型的数据默认都是深拷贝
+func Test_Copy(t *testing.T) {
+	//使用range循环获取元素中的值进行拷贝
+	slice := []int{1, 2, 3, 4}
+	s2 := make([]int, 0)
+	for _, v := range slice {
+		s2 = append(s2, v)
+	}
+	fmt.Println(slice) //结果 [1 2 3 4]
+	fmt.Println(s2)    //结果 [1 2 3 4]
+
+	fmt.Println("-----------使用深拷贝数据函数: copy(目标切片,数据源)-----------")
+	//copy(目标切片,数据源)  深拷贝数据函数
+	s3 := []int{1, 2, 3, 4}
+	s4 := []int{7, 8, 9}
+
+	/*copy(s3, s4)    //将s4拷贝到s3中(替换同下标中的值)
+	fmt.Println(s3) //结果 [7 8 9 4]
+	fmt.Println(s4) //结果 [7 8 9]*/
+
+	/*copy(s4, s3[2:]) //将s3中下标为2的位置 到结束的值 拷贝到s4中
+	fmt.Println(s3)  //结果 [1 2 3 4]
+	fmt.Println(s4)  //结果 [3 4 9]*/
+
+	copy(s4, s3)    //将s3拷贝到s4中
+	fmt.Println(s3) //结果 [1 2 3 4]
+	fmt.Println(s4) //结果 [1 2 3]
+}
+
+//切片的删除
+func Test_Slice_Delete(t *testing.T) {
+	slice := []int{1, 2, 3, 4, 5, 6}
+	fmt.Println(slice[2:]) //从数组下标2开始到结尾位置处的下标，包含下标2的数据  [3 4 5 6]
+	fmt.Println(slice[:3]) //从数组下标3开始到开始位置处的下标，不包含下标3的数据   [1 2 3]
+	fmt.Println(slice[:])  //全部数据 [1 2 3 4 5 6]
+
+	fmt.Println("-----------删除切片中元素的方法-----------")
+	//方法一 获取切片指定位置的值 重新赋值给当前切片
+	method1Slice := []int{1, 2, 3, 4}
+	method1Slice = method1Slice[1:] //删除切片中开头1个元素  结果 [2,3,4]
+
+	//方法二 使用append不会改变当前切片的内存地址
+	method1Slice = []int{1, 2, 3, 4}
+	fmt.Println(method1Slice[:0])
+	fmt.Println(method1Slice[1:])
+	method1Slice = append(method1Slice[:0], method1Slice[1:]...) // 删除开头1个元素
+	fmt.Println(method1Slice)
+}
+
+//删除指定的下标元素
+func Test_Slice_Delete2(t *testing.T) {
+	slice := []int{1, 2, 3, 4}
+	i := 2                                    // 要删除的下标为2
+	fmt.Println(slice[:i])                    //[1,2,3]
+	fmt.Println(slice[i+1:])                  //[4]
+	slice = append(slice[:i], slice[i+1:]...) // 删除中间1个元素
+	fmt.Println(slice)                        //结果[1 2 4]
+
+	fmt.Println("-----------删除切片结尾的方法-----------")
+	slice2 := []int{1, 2, 3, 4, 5, 6}
+	fmt.Println(len(slice2))
+	slice2 = slice2[:len(slice2)-2] // 删除最后2个元素
+	fmt.Println(slice2)             // 结果 [1,2]
+}
+
+func Test_Map(t *testing.T) {
+	//1、声明map 默认值是nil
+	//	var m1 map[string]int
+	//2、使用make声明
+	//  m2 := make(map[string]int)
+	//3、直接声明并初始化赋值map的方法
+	//	m3 := map[string]int{"语文": 89, "数学": 90}
+
+	var m1 map[int]string         //只是声明 nil
+	var m2 = make(map[int]string) //创建
+	m3 := map[string]int{"语文": 89, "数学": 23, "英语": 90}
+
+	fmt.Println(m1 == nil) //true
+	fmt.Println(m2 == nil) //false
+	fmt.Println(m3 == nil) //false
+
+	//map 为nil的时候不能使用 所以使用之前先判断是否为nil
+	if m1 == nil {
+		m1 = make(map[int]string)
+	}
+
+	//1、存储键值对到map中  语法:map[key]=value
+	m1[1] = "小猪"
+	m1[2] = "小猫"
+
+	//2、获取map中的键值对  语法:map[key]
+	val := m1[2]
+	fmt.Println(val)
+
+	//3、判断key是否存在   语法：value,ok:=map[key]
+	val, ok := m1[1]
+	fmt.Println(val, ok) //结果返回两个值，一个是当前获取的key对应的val值。二是当前值否存在，会返回一个true或false。
+
+	//4、修改map  如果不存在则添加， 如果存在直接修改原有数据。
+	m1[1] = "小狗"
+
+	//5、删除map中key对应的键值对数据 语法: delete(map, key)
+	delete(m1, 1)
+
+	//6、获取map中的总长度 len(map)
+	fmt.Println(len(m1))
+
+}
+
+//遍历map
+func Test_Map_Foreach(t *testing.T) {
+	//map的遍历
+	//因为map是无序的 如果需要获取map中所有的键值对
+	//可以使用 for range
+	m1 := make(map[int]string)
+	m1[1] = "张无忌"
+	m1[2] = "张三丰"
+	m1[3] = "常遇春"
+	m1[4] = "胡青牛"
+	//遍历map
+	for key, val := range m1 {
+		fmt.Println(key, val)
+	}
+
+	fmt.Println("---------华丽的分割线----------")
+	//map结合Slice
+	//创建一个map存储第一个人的信息
+	map1 := make(map[string]string)
+	map1["name"] = "张无忌"
+	map1["sex"] = "男"
+	map1["age"] = "21"
+	map1["address"] = "明教"
+
+	//如果需要存储第二个人的信息则需要重新创建map
+	map2 := make(map[string]string)
+	map2["name"] = "周芷若"
+	map2["sex"] = "女"
+	map2["age"] = "22"
+	map2["address"] = "峨眉山"
+
+	//将map存入切片 slice中
+	s1 := make([]map[string]string, 0, 2)
+	s1 = append(s1, map1)
+	s1 = append(s1, map2)
+	//遍历map
+	for key, val := range s1 {
+		fmt.Println(key, val)
+	}
+}
+
