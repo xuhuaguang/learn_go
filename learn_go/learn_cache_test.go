@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	gocache "github.com/patrickmn/go-cache"
-	"gomodule/entity"
+	"learn_go/entity"
 	"runtime"
 	"sync"
 	"testing"

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
-	"gomodule/pkg/redis"
+	"learn_go/pkg/redis"
 	"math/rand"
 	"strings"
 	"sync"

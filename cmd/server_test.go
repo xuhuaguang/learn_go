@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gomodule/task"
+	"learn_go/task"
 	"math/rand"
 	"testing"
 	"time"

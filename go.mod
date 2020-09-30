@@ -1,4 +1,4 @@
-module gomodule
+module learn_go
 
 go 1.13
 
@@ -12,6 +12,7 @@ require (
 	github.com/prometheus/common v0.9.1
 	github.com/robfig/cron v1.2.0
 	github.com/segmentio/ksuid v1.0.3
+	github.com/spf13/pflag v1.0.3
 	github.com/spf13/viper v1.7.1
 	go.uber.org/atomic v1.7.0
 	google.golang.org/protobuf v1.21.0

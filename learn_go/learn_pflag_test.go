@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"gomodule/config"
-	"gomodule/utils"
+	"learn_go/config"
+	"learn_go/utils"
 	"log"
 	"math/rand"
 	"os"
@@ -16,7 +16,7 @@ import (
 //测试加载配置文件
 func TestConfigYaml(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	pflag.String("conf", "./app.yaml", "set configuration `file`")
+	pflag.String("conf", "../app.yaml", "set configuration `file`")
 	pflag.Parse()
 	_ = viper.BindPFlags(pflag.CommandLine)
 	configFile := viper.GetString("conf")
@@ -40,7 +40,7 @@ func serve(cfg *config.Configuration) error {
 
 func TestConfigJson(t *testing.T) {
 	conf := viper.New()
-	conf.AddConfigPath(".")
+	conf.AddConfigPath("../")
 	conf.SetConfigName("config_json")
 	conf.SetConfigType("json")
 	if err := conf.ReadInConfig(); err != nil {
