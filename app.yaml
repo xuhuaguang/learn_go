@@ -1,0 +1,125 @@
+# 启动端口
+port: 8080
+
+pidfile: ./ssp.pid
+
+# 实例个数
+instance: 1
+
+# 系统环境 production
+env: dev
+
+# 三方请求日志，测试环境打开true，线上关闭false
+debug_switch: true
+
+# 系统使用的域名，用于生成监测链接
+domains:
+  ads_track: localhost:8080
+  union_track: localhost:8080
+
+# 联盟监测配置，测试不支持HTTPS
+union_monitor_http_proto: http
+
+# IP城市库文件
+ip_lib: ./ipdb.ipdb
+region_lib: ./area.csv
+
+# 日志目录
+log_dir: ./logs
+
+#DSP超时时间
+dsp_timeout_ms: 800
+
+# Redis 配置
+redis:
+  address: 127.0.0.1:6379
+  password:
+  db: 1
+  maxIdle: 2
+  maxActive: 10
+  idleTimeout: 1000
+
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  name: cms_test
+  password: 123456
+
+kafka:
+  clientId: producer1
+  brokers: localhost:9092
+
+topics:
+  app_req: SspAppReqLogDev
+  dsp_req: SspDspReqLogDev
+  monitor: SspMonitorLogDev
+  event_status: SspEventStatusLogDev
+  preload_track: SspPreloadLogDev
+  adx_creative: SspAdxCreativeLogDev
+  ad_cfg: SspAdCfgLogDev
+  filter_err: SspFilterErrLogDev
+  pv_req: SspPvReqLogDev
+  ac_req: SspActivityReqLogDev
+  report_err: SspReportReqLogDev
+
+aerospike:
+  servers:
+    - 127.0.0.1
+  port: 3000
+  write_timeout: 2000
+  read_timeout: 2000
+  connection_timeout: 2000
+  connection_queue_size: 2000
+  user_profile_db: dmp
+  dsp_db: dmp
+
+# 流量分发客户端配置
+http_client:
+  max_idle_connections: 500
+  max_idle_connections_per_host: 20
+  idle_connection_timeout_seconds: 6000
+
+print_sql: true
+
+loader_interval_second: 60
+
+apps:
+  zhangyue_media_ids:
+    - 10000
+    - 10001
+    - 10016
+  gdt_accept_id: 10000
+  csj_accept_id: 10001
+  sigmob_accept_id: 10034
+  kuaishou_accept_id: 10035
+  baidu_accept_id: 10047
+  sougou_accept_id: 10071
+  not_filter_pids:
+    - 10151
+    - 10152
+    - 10153
+  chuanyue_accept_id:
+    - 10028
+    - 10033
+
+# 名字服务代理
+zyns-proxy:
+  global_switch_url: /nine-task
+  user_feature_url: /user-info
+  video_exchange_url: /video-exchange
+  video_exchange_report_url: /video-exchange/action_report
+  wheel_draw_url: /wheel-draw
+  send_amount_url: /getSendAmount
+  sign_info_url: /signInfo
+  timeout_ms: 50000
+  nodes:
+    - localhost:8084
+    - localhost:8084
+
+# 超时限流控制
+timeout_breaker:
+  # 超时的请求数大于 count时控制
+  dsp_timeout_counts: 200
+  # 控制时间间隔
+  interval: 60
