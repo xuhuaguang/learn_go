@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"sort"
 	"testing"
 	"time"
 )
@@ -38,4 +39,29 @@ func TestType(t *testing.T) {
 	var num SaleNumType = 1
 	s := SaleNumTypeMap[num]
 	fmt.Println(s)
+}
+
+func TestFloatCompare(t *testing.T) {
+	v1 := 0.01
+	v2 := 0.09
+
+	i := int64(v1 * float64(100))
+	i2 := int64(v2 * float64(100))
+	fmt.Println(i)
+	fmt.Println(i2)
+}
+
+func TestIntArraySort(t *testing.T) {
+	arr := []int{3, 8, 2, 5, 1, 7, 9, 4}
+	sort.Ints(arr)
+	fmt.Println(arr)
+	fmt.Println("---------------------")
+}
+
+func TestDuplicateIntArray(t *testing.T) {
+	a := []int{4, 2, 3, 1, 10, 5, 6, 7, 9, 8, 1, 2,}
+	loop := RemoveRepByLoop(a)
+	fmt.Println(loop)
+	sort.Ints(loop)
+	fmt.Println(loop)
 }

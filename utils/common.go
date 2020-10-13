@@ -310,6 +310,23 @@ func StringArrayTransString(m []string, separator string) string {
 	return strings.Join(m, separator)
 }
 
+func RemoveRepByLoop(slc []int) []int {
+	var result []int // 存放结果
+	for i := range slc {
+		flag := true
+		for j := range result {
+			if slc[i] == result[j] {
+				flag = false // 存在重复元素，标识为false
+				break
+			}
+		}
+		if flag { // 标识为false，不添加进结果
+			result = append(result, slc[i])
+		}
+	}
+	return result
+}
+
 //方案对应关系
 var planMap = map[string]string{
 	"59": "73",
