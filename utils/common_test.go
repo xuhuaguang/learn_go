@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"math/rand"
 	"sort"
 	"testing"
 	"time"
@@ -64,4 +65,37 @@ func TestDuplicateIntArray(t *testing.T) {
 	fmt.Println(loop)
 	sort.Ints(loop)
 	fmt.Println(loop)
+
+}
+
+func TestIsContainsAnyValue(t *testing.T) {
+	clickTrackers := []string{"http://et.w.inmobi.cn/c.asm/", "http://i.l.inmobicdn.cn/adtools", "http://c.gdt.qq.com"}
+	contains := StrListValveContains(clickTrackers, "c.gdt.qq.com")
+	fmt.Println(contains)
+}
+
+func TestRandNumber(t *testing.T) {
+	//[0,8]返回true ,反之返回false
+	num_true := 0
+	num_false := 0
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 100; i++ {
+		rule := RandShowRule(0, 100, RandInt(5, 10))
+		if rule {
+			num_true++
+		} else {
+			num_false++
+		}
+	}
+	fmt.Println("true num ", num_true)
+	fmt.Println("num_false num ", num_false)
+
+	for i := 0; i < 10; i++ {
+		fmt.Println(RandInt(5, 10))
+	}
+
+}
+
+func CreateCaptcha() string {
+	return fmt.Sprintf("%08v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(100000000))
 }

@@ -60,6 +60,15 @@ func IntListContains(list []int, val int) bool {
 	return false
 }
 
+func StrListValveContains(clickTrackers []string, value string) bool {
+	for _, v := range clickTrackers {
+		if strings.Contains(v, value) {
+			return true
+		}
+	}
+	return false
+}
+
 //数组去重
 func DuplicateIntArray(m []string) []string {
 	s := make([]string, 0)
