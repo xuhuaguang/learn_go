@@ -2,6 +2,8 @@ package utils
 
 import (
 	"fmt"
+	"github.com/segmentio/ksuid"
+	"learn_go/entity"
 	"math/rand"
 	"sort"
 	"testing"
@@ -98,4 +100,23 @@ func TestRandNumber(t *testing.T) {
 
 func CreateCaptcha() string {
 	return fmt.Sprintf("%08v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(100000000))
+}
+
+type Content struct {
+	RawRequest interface{}
+}
+
+func TestInterfaceGetValue(t *testing.T) {
+	info := &entity.RequestInfo{
+		Date:      0,
+		Hour:      0,
+		EventTime: 0,
+		ID:        ksuid.New().String(),
+		PageNum:   12,
+	}
+	request := &Content{}
+	request.RawRequest = info
+	fmt.Println("--------------")
+	requestInfo := request.RawRequest.(*entity.RequestInfo)
+	fmt.Println(requestInfo.PageNum)
 }
