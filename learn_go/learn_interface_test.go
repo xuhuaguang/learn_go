@@ -172,3 +172,4 @@ func NewDict() *Dictionary {
 		data: make(map[string]interface{}), //map类型使用前需要初始化，所以需要使用make创建 防止空指针异常。
 	}
 }
+

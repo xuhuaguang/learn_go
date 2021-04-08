@@ -70,7 +70,7 @@ func StrListValveContains(clickTrackers []string, value string) bool {
 }
 
 //数组去重
-func DuplicateIntArray(m []string) []string {
+func DuplicateStringArray(m []string) []string {
 	s := make([]string, 0)
 	samp := make(map[string]int)
 	for _, value := range m {
