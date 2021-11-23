@@ -2,6 +2,7 @@ package learn_go
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
 	"testing"
 )
@@ -9,6 +10,7 @@ import (
 // 当存在多个goroutine要传递某一个数据时，可以把这个数据封装成一个对象，
 // 然后把对象的指针传入channel通道中，另一个goroutine 从通道中读取这个指针。
 // 同一时间只允许一个goroutine访问channel通道里面的数据。所以go就是把数据放在了通道中来传递，而不是共享内存来传递。
+// go启动协程的方式就是使用关键字go，后面一般接一个函数或者匿名函数
 
 func Test_Channel(t *testing.T) {
 	var channle chan int
@@ -166,4 +168,41 @@ func Test_Dead_Lock3(t *testing.T) {
 	go func() {
 		<-c
 	}()
+}
+
+//如果你运行上面第一段代码，你会发现什么结果都没有.
+//当你使用go启动协程之后,后面没有代码了，这时候主线程结束了，这个协程还没来得及执行就结束了
+//https://zhuanlan.zhihu.com/p/74047342
+func Test_XieCheng(t *testing.T) {
+	go say("Hello World")
+}
+
+func say(s string) {
+	println(s)
+}
+
+//上述Test_XieCheng解决方法
+//简单说明一下用法，var是声明了一个全局变量wgWay1，
+//类型是sync.WaitGroup，wgWay1.add(1) 是说我有1个协程需要执行，
+//wgWay1.Done 相当于 wgWay1.Add(-1) 意思就是我这个协程执行完了。
+//wgWay1.Wait() 就是告诉主线程要等一下，等协程都执行完再退出。
+var wgWay1 = sync.WaitGroup{}
+
+func Test_WaitGroupWay1(t *testing.T) {
+	wgWay1.Add(1)
+	go sayWay1("Hello World")
+	wgWay1.Wait()
+}
+
+func Test_WaitGroupWay2(t *testing.T) {
+	wgWay1.Add(5)
+	for i := 0; i < 5; i++ {
+		go sayWay1("Hello World: " + strconv.Itoa(i))
+	}
+	wgWay1.Wait()
+}
+
+func sayWay1(s string) {
+	println(s)
+	wgWay1.Done()
 }

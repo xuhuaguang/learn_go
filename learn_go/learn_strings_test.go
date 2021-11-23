@@ -2,6 +2,7 @@ package learn_go
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 	"testing"
 )
@@ -54,4 +55,13 @@ func Test_Strings_Method(t *testing.T) {
 	//12、字符串的截取
 	//str[start:end]包含start 不包含end
 	fmt.Println(s1[2:7])
+
+	//13、获取url的域名
+	//https://fc.ele.me/a/ODE0NDg2MWI0YjFjMTFlYjlhM2QwMjQyMGI1OWUxMjQ=
+	s8 := "https://fc.ele.me/a/ODE0NDg2MWI0YjFjMTFlYjlhM2QwMjQyMGI1OWUxMjQ="
+	domain := strings.Split(strings.Split(s8,"//")[1],"/")[0]
+	s, _ := url.Parse(s8)
+	println(domain)
+	println(s.Host)
+
 }

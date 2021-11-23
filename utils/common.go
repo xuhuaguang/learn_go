@@ -19,6 +19,19 @@ import (
 	"time"
 )
 
+// Jitter returns a time.Duration between duration and duration + maxFactor *
+// duration.
+//
+// This allows clients to avoid converging on periodic behavior. If maxFactor
+// is 0.0, a suggested default value will be chosen.
+func Jitter(start int, maxFactor float64) int {
+	if maxFactor <= 0.0 {
+		maxFactor = 1.0
+	}
+	wait := start + int(rand.Float64()*maxFactor*float64(start))
+	return wait
+}
+
 func ToJsonStr(v interface{}) string {
 	bytes, _ := json.Marshal(v)
 	return string(bytes)
@@ -255,6 +268,10 @@ func GetPlanMappingId(planId string) int {
 	return 0
 }
 
+func GetNewPlanMappingId(planId string) string {
+	return planNewMap[planId]
+}
+
 func IntArrayToString(array []int) string {
 	if len(array) == 0 {
 		return ""
@@ -347,6 +364,15 @@ var planMap = map[string]string{
 	"03": "41",
 	"07": "44",
 	"68": "34",
+	"69": "73",
+	"71": "81",
+	"72": "77",
+	"83": "83",
+}
+
+//新方案映射关系，p29
+var planNewMap = map[string]string{
+	"zybc0e74": "000083", //取p29参数
 }
 
 // Get preferred outbound ip of this machine

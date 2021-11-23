@@ -40,3 +40,33 @@ func Test_Select(t *testing.T) {
 	// select 会一直等待等到某个 case 语句完成，
 	//也就是等到成功从 ch1 或者 ch2 中读到数据。则 select 语句结束。
 }
+
+func TestSelect2(t *testing.T) {
+	ch := make(chan int)
+	c := 0
+	stopCh := make(chan bool)
+
+	go Chann(ch, stopCh)
+
+	for {
+		select {
+		case c = <-ch:
+			fmt.Println("Receive1", c)
+			fmt.Println("channel")
+		case s := <-ch:
+			fmt.Println("Receive2", s)
+		case _ = <-stopCh:
+			goto end
+		}
+	}
+end:
+}
+
+func Chann(ch chan int, stopCh chan bool) {
+	i := 10
+	for j := 0; j < 10; j++ {
+		ch <- i
+		time.Sleep(time.Second)
+	}
+	stopCh <- true
+}

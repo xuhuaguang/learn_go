@@ -84,7 +84,7 @@ func main() {
 	regist := prometheus.NewRegistry()
 	regist.MustRegister(status)
 
-	http.HandleFunc("/metric", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/me", func(w http.ResponseWriter, r *http.Request) {
 		status.ReqAdd("200", strings.ToLower(r.Method))
 
 		entry, err := regist.Gather()

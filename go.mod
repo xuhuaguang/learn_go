@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/chilts/sid v0.0.0-20190607042430-660e94789ec9
-	github.com/dreamans/guuid v0.0.0-20180321142257-7d0b13a43adc
+	github.com/dreamans/guuid v0.0.0-20180321142257-7d0b13a43adc // indirect
 	github.com/garyburd/redigo v1.6.2
 	github.com/gin-contrib/zap v0.0.1
 	github.com/gin-gonic/gin v1.6.3

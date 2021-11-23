@@ -39,6 +39,7 @@ func SetLogStatus(uri string) {
 
 func GetLogStatus() map[string]bool {
 	statusMap := make(map[string]bool)
+	println("-----------------", LogStatusCache.Items())
 	for k, v := range LogStatusCache.Items() {
 		statusMap[k] = v.Object.(bool)
 	}

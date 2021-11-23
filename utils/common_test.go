@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/segmentio/ksuid"
 	"learn_go/entity"
+	"learn_go/models"
 	"math/rand"
+	"net/url"
 	"sort"
 	"strings"
 	"testing"
@@ -215,6 +217,10 @@ func TestArrayAppend(t *testing.T) {
 func TestParseTime(t *testing.T) {
 	times := 60034
 	println(TransferTime(int32(times)))
+
+	id := GetNewPlanMappingId("zybc0e74")
+	fmt.Println(id)
+	println(GetPlanMappingId(id))
 }
 
 func TestRandIndex(t *testing.T) {
@@ -225,4 +231,68 @@ func TestRandIndex(t *testing.T) {
 	}
 
 	fmt.Println(3 < 3)
+}
+
+func TestContent(t *testing.T) {
+	timeout := time.Duration(300) * time.Millisecond
+	println(timeout)
+}
+
+func TestDateNum(t *testing.T) {
+	for i := 0; i < 5; i++ {
+		date := time.Now().AddDate(0, 0, -i)
+		dt := date.Format(models.DateFormat_yyyyMMdd)
+		println(dt)
+	}
+}
+
+//获取url的域名
+func TestUrlDomain(t *testing.T) {
+	str := "https://fc.ele.me/a/ODE0NDg2MWI0YjFjMTFlYjlhM2QwMjQyMGI1OWUxMjQ="
+	domain := strings.Split(strings.Split(str, "//")[1], "/")[0]
+	println(domain)
+	s, _ := url.Parse("https://fc.ele.me/a/ODE0NDg2MWI0YjFjMTFlYjlhM2QwMjQyMGI1OWUxMjQ=")
+	println(s.Host)
+}
+
+func TestCidMd5(t *testing.T) {
+	resources := []string{"https://img1.rgyun.net.cn/adxupmat/2021/08/03/16cfe944-ee3e-416a-b93d-4d0c477654c5.jpg"}
+	ids := fmt.Sprintf("%d:%d:%v", 10012, 10052, resources)
+	println(Md5(ids))
+}
+
+func TestJitter(t *testing.T) {
+	for i := 0; i < 1; i++ {
+		wait := Jitter(1, 0.25)
+		println(wait)
+	}
+	wait := Jitter(10, 0.25)
+	println(wait)
+}
+
+func TestDate(t *testing.T) {
+	for i := 0; i < 5; i++ {
+		date := time.Now().AddDate(0, 0, -i)
+		println(date.Format(models.DateFormat_yyyyMMdd))
+	}
+}
+
+/**
+  1、f1=true  f2=false  f3=true    -->true
+  2、f1=true  f2=false  f3=false   -->false x
+  3、f1=false f2=true   f3=false   -->false
+  4、f1=false f2=true   f3=true    -->true
+  5、f1=false  f2=false  f3=true   -->false
+  6、f1=false  f2=false  f3=false  -->false
+*/
+func TestIf(t *testing.T) {
+	f1 := true
+	f2 := false
+	f3 := false
+
+	if f1 || f2 && f3 {
+		println("------true")
+	} else {
+		println("=====false")
+	}
 }
